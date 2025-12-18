@@ -4,10 +4,7 @@
   <meta charset="UTF-8" />
   <title>Uyqu tovushlari</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- Telegram Mini App -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -16,16 +13,35 @@
     <h1>🌙 Uyqu tovushlari</h1>
     <p>Tinchlaning va dam oling</p>
 
+    <!-- TOVUSHLAR -->
+    <div class="sounds">
+      <button onclick="changeSound('rain.mp3')">🌧️ Yomg‘ir</button>
+      <button onclick="changeSound('sea.mp3')">🌊 Dengiz</button>
+      <button onclick="changeSound('noise.mp3')">🎧 White Noise</button>
+    </div>
+
+    <!-- PLAY -->
     <button id="playBtn">▶️ Play</button>
 
+    <!-- VOLUME -->
     <div class="volume">
       <label>🔊 Ovoz balandligi</label>
       <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
     </div>
+
+    <!-- TIMER -->
+    <div class="timer">
+      <p>⏱️ Taymer</p>
+      <div class="timer-buttons">
+        <button onclick="setTimer(15)">15 min</button>
+        <button onclick="setTimer(30)">30 min</button>
+        <button onclick="setTimer(60)">60 min</button>
+        <button class="cancel" onclick="cancelTimer()">Cancel</button>
+      </div>
+    </div>
   </div>
 
-  <!-- 1 ta tovush -->
-  <audio id="audio" src="uyqu.mp3" loop></audio>
+  <audio id="audio" src="rain.mp3" loop></audio>
 
   <script src="skript.js"></script>
 </body>
