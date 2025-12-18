@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <title>Uyqu tovushlari</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Telegram Mini App -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="app">
+    <h1>🌙 Uyqu tovushlari</h1>
+    <p>Tinchlaning va uxlang</p>
+
+    <button id="playBtn">▶️ Play</button>
+
+    <div class="timer">
+      <button onclick="setTimer(15)">15 daqiqa</button>
+      <button onclick="setTimer(30)">30 daqiqa</button>
+      <button onclick="setTimer(60)">60 daqiqa</button>
+    </div>
+  </div>
+
+  <audio id="audio" src="uyqu.mp3" loop></audio>
+
+  <script src="skript.js"></script>
+</body>
+</html>
