@@ -1,43 +1,57 @@
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0f172a;
-  color: white;
+  height: 100vh;
+  background: linear-gradient(180deg, #0f172a, #020617);
+  font-family: system-ui, Arial, sans-serif;
+  color: #e5e7eb;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
 .app {
+  width: 100%;
+  max-width: 360px;
   text-align: center;
-  padding: 20px;
+  padding: 24px;
 }
 
 h1 {
-  margin-bottom: 5px;
+  margin-bottom: 8px;
+  font-size: 26px;
 }
 
 p {
   opacity: 0.7;
+  margin-bottom: 24px;
 }
 
 button {
+  width: 100%;
+  padding: 14px;
+  font-size: 18px;
+  border-radius: 14px;
+  border: none;
   background: #1e293b;
   color: white;
-  border: none;
-  padding: 15px 25px;
-  margin: 10px;
-  border-radius: 10px;
-  font-size: 16px;
   cursor: pointer;
+  margin-bottom: 20px;
 }
 
-button:hover {
-  background: #334155;
+button:active {
+  transform: scale(0.98);
 }
 
-.timer button {
-  padding: 10px 15px;
+.volume {
+  text-align: left;
+}
+
+.volume label {
   font-size: 14px;
+  opacity: 0.8;
+}
+
+input[type="range"] {
+  width: 100%;
+  margin-top: 8px;
 }
