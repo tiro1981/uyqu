@@ -14,17 +14,17 @@
 
   <div class="app">
     <h1>🌙 Uyqu tovushlari</h1>
-    <p>Tinchlaning va uxlang</p>
+    <p>Tinchlaning va dam oling</p>
 
     <button id="playBtn">▶️ Play</button>
 
-    <div class="timer">
-      <button onclick="setTimer(15)">15 daqiqa</button>
-      <button onclick="setTimer(30)">30 daqiqa</button>
-      <button onclick="setTimer(60)">60 daqiqa</button>
+    <div class="volume">
+      <label>🔊 Ovoz balandligi</label>
+      <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
     </div>
   </div>
 
+  <!-- 1 ta tovush -->
   <audio id="audio" src="uyqu.mp3" loop></audio>
 
   <script src="skript.js"></script>
