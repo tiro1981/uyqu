@@ -1,63 +1,118 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const audio = document.getElementById("audio");
-  const playBtn = document.getElementById("playBtn");
-  const volumeSlider = document.getElementById("volumeSlider");
+const home = document.getElementById("home");
+const audioScreen = document.getElementById("audioScreen");
+const audioControls = document.getElementById("audioControls");
+const countdown = document.getElementById("countdown");
+const playBtn = document.getElementById("playToggle");
 
-  let isPlaying = false;
-  let timerId = null;
+const FILES = {
+  "sea.mp3": "🌊 Dengiz",
+  "rain.mp3": "🌧️ Yomg‘ir",
+  "noise.mp3": "🎧 Shovqin"
+};
 
-  // Boshlang‘ich ovoz
-  audio.volume = 0.5;
-  volumeSlider.value = 0.5;
+let selected = [];
+let audios = {};
+let timer = null;
+let isPlaying = false;
 
-  playBtn.addEventListener("click", async () => {
-    try {
-      if (!isPlaying) {
-        await audio.play(); // MUHIM
-        playBtn.textContent = "⏸ Pause";
-        isPlaying = true;
-      } else {
-        audio.pause();
-        playBtn.textContent = "▶️ Play";
-        isPlaying = false;
-      }
-    } catch (e) {
-      alert("🔇 Musiqa ishga tushmadi. Yana bir bor Play bosing.");
+/* NAV */
+function openAudio(){
+  home.classList.remove("active");
+  audioScreen.classList.add("active");
+}
+function goHome(){
+  stopAll();
+  audioScreen.classList.remove("active");
+  home.classList.add("active");
+}
+
+/* TOGGLE AUDIO (MAX 3) */
+function toggleAudio(file, btn){
+  const idx = selected.indexOf(file);
+
+  if(idx === -1){
+    if(selected.length >= 3) return;
+    selected.push(file);
+    btn.classList.add("active");
+  }else{
+    selected.splice(idx,1);
+    btn.classList.remove("active");
+    if(audios[file]){
+      audios[file].pause();
+      delete audios[file];
     }
+  }
+  renderMiddle();
+}
+
+/* MIDDLE UI */
+function renderMiddle(){
+  audioControls.innerHTML = "";
+
+  selected.forEach(file=>{
+    const audio = audios[file] || new Audio(file);
+    audio.loop = true;
+    audio.volume = 0.5;
+    audios[file] = audio;
+
+    const div = document.createElement("div");
+    div.className = "middle-item";
+
+    const name = document.createElement("span");
+    name.textContent = FILES[file];
+
+    const vol = document.createElement("input");
+    vol.type = "range";
+    vol.min = 0;
+    vol.max = 1;
+    vol.step = 0.01;
+    vol.value = 0.5;
+    vol.oninput = ()=> audio.volume = vol.value;
+
+    div.appendChild(name);
+    div.appendChild(vol);
+    audioControls.appendChild(div);
   });
+}
 
-  volumeSlider.addEventListener("input", () => {
-    audio.volume = volumeSlider.value;
-  });
+/* PLAY / PAUSE TOGGLE */
+function globalPlay(){
+  if(!isPlaying){
+    selected.forEach(file=>{
+      const a = audios[file];
+      a.currentTime = 0;
+      a.play();
+    });
+    playBtn.textContent = "⏸ Pause";
+    isPlaying = true;
+  }else{
+    Object.values(audios).forEach(a=>a.pause());
+    playBtn.textContent = "▶️ Play";
+    isPlaying = false;
+  }
+}
 
-  window.changeSound = async function (file) {
-    audio.pause();
-    audio.src = file;
-    audio.load();
-    try {
-      await audio.play();
-      playBtn.textContent = "⏸ Pause";
-      isPlaying = true;
-    } catch (e) {
-      alert("🔇 Tovushni ishga tushirish uchun Play bosing");
-    }
-  };
+/* TIMER */
+function setTimer(m){
+  clearInterval(timer);
+  let s = m * 60;
+  countdown.textContent = "";
 
-  window.setTimer = function (minutes) {
-    if (timerId) clearTimeout(timerId);
-    timerId = setTimeout(() => {
-      audio.pause();
+  timer = setInterval(()=>{
+    s--;
+    countdown.textContent =
+      `${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`;
+
+    if(s <= 0){
+      clearInterval(timer);
+      stopAll();
       playBtn.textContent = "▶️ Play";
       isPlaying = false;
-      alert("⏱️ Taymer tugadi");
-    }, minutes * 60000);
-  };
-
-  window.cancelTimer = function () {
-    if (timerId) {
-      clearTimeout(timerId);
-      timerId = null;
-      alert("⛔ Taymer bekor qilindi");
     }
-  };
-});
+  },1000);
+}
+
+/* STOP ALL */
+function stopAll(){
+  Object.values(audios).forEach(a=>a.pause());
+}
