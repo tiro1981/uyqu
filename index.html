@@ -1,48 +1,46 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8" />
-  <title>Uyqu tovushlari</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Uyqu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="app">
-    <h1>🌙 Uyqu tovushlari</h1>
-    <p>Tinchlaning va dam oling</p>
+<!-- HOME -->
+<div id="home" class="screen active">
+  <h1>Uxlashga<br>tayormisiz.</h1>
+  <button class="big" onclick="openAudio()">🎧 Audio</button>
+</div>
 
-    <!-- TOVUSHLAR -->
-    <div class="sounds">
-      <button onclick="changeSound('rain.mp3')">🌧️ Yomg‘ir</button>
-      <button onclick="changeSound('sea.mp3')">🌊 Dengiz</button>
-      <button onclick="changeSound('noise.mp3')">🎧 White Noise</button>
-    </div>
+<!-- AUDIO (MIX ICHIDA) -->
+<div id="audioScreen" class="screen">
+  <h1>Audio</h1>
 
-    <!-- PLAY -->
-    <button id="playBtn">▶️ Play</button>
-
-    <!-- VOLUME -->
-    <div class="volume">
-      <label>🔊 Ovoz balandligi</label>
-      <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
-    </div>
-
-    <!-- TIMER -->
-    <div class="timer">
-      <p>⏱️ Taymer</p>
-      <div class="timer-buttons">
-        <button onclick="setTimer(15)">15 min</button>
-        <button onclick="setTimer(30)">30 min</button>
-        <button onclick="setTimer(60)">60 min</button>
-        <button class="cancel" onclick="cancelTimer()">Cancel</button>
-      </div>
-    </div>
+  <!-- TOP: audio tanlash -->
+  <div class="audio-grid">
+    <button class="audio-btn" onclick="toggleAudio('sea.mp3', this)">🌊 Dengiz</button>
+    <button class="audio-btn" onclick="toggleAudio('rain.mp3', this)">🌧️ Yomg‘ir</button>
+    <button class="audio-btn" onclick="toggleAudio('noise.mp3', this)">🎧 Shovqin</button>
   </div>
 
-  <audio id="audio" src="rain.mp3" loop></audio>
+  <!-- MIDDLE: tanlanganlar -->
+  <div id="audioControls" class="audio-middle"></div>
 
-  <script src="skript.js"></script>
+  <!-- TIMER -->
+  <div class="timer">
+    <button onclick="setTimer(15)">15</button>
+    <button onclick="setTimer(30)">30</button>
+    <button onclick="setTimer(60)">60</button>
+    <div id="countdown" class="countdown"></div>
+  </div>
+
+  <!-- BOTTOM -->
+  <button id="playToggle" class="big" onclick="globalPlay()">▶️ Play</button>
+  <button class="big exit" onclick="goHome()">⬅️ Orqaga</button>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
