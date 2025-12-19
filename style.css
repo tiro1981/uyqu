@@ -1,67 +1,104 @@
+* { box-sizing: border-box; }
+
 body {
   margin: 0;
   height: 100vh;
-  background: linear-gradient(180deg, #0f172a, #020617);
-  font-family: system-ui, Arial, sans-serif;
-  color: #e5e7eb;
+  background: radial-gradient(120% 120% at 50% 0%, #0f172a 0%, #000 60%);
+  font-family: system-ui, sans-serif;
+  color: #f9fafb;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.app {
+.screen {
+  display: none;
   width: 100%;
   max-width: 360px;
-  padding: 24px;
+  padding: 22px;
   text-align: center;
 }
+.screen.active { display: block; }
 
-h1 {
-  margin-bottom: 6px;
-}
+h1 { margin-bottom: 20px; }
 
-p {
-  opacity: 0.7;
-  margin-bottom: 16px;
-}
-
+/* BUTTONS */
 button {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 14px;
   border: none;
-  background: #1e293b;
-  color: white;
+  border-radius: 16px;
+  padding: 14px;
   font-size: 16px;
+  cursor: pointer;
 }
 
-button:active {
-  transform: scale(0.98);
-}
-
-.sounds button {
-  background: #020617;
-  border: 1px solid #1e293b;
-}
-
-.volume {
-  margin-top: 10px;
-  text-align: left;
-}
-
-input[type="range"] {
+.big {
   width: 100%;
+  background: #e5e7eb;
+  color: #020617;
+  margin-bottom: 12px;
 }
 
-.timer {
-  margin-top: 20px;
+.exit {
+  background: #fecaca;
+  color: #450a0a;
 }
 
-.timer-buttons button {
-  margin-bottom: 8px;
+/* AUDIO TOP */
+.audio-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 10px;
 }
 
-.cancel {
-  background: #7f1d1d;
+.audio-btn {
+  background: rgba(59,130,246,.18);
+  color: #e0f2fe;
+  transition: .2s;
+}
+
+.audio-btn.active {
+  background: rgba(59,130,246,.55);
+  box-shadow: 0 0 0 2px rgba(59,130,246,.8);
+}
+
+/* MIDDLE */
+.audio-middle {
+  margin: 22px 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.middle-item {
+  width: 90px;
+  padding: 12px 8px;
+  border-radius: 18px;
+  background: rgba(255,255,255,.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.middle-item span {
+  font-size: 14px;
+  color: #bfdbfe;
+}
+
+/* VERTICAL VOLUME */
+.middle-item input {
+  writing-mode: bt-lr;
+  -webkit-appearance: slider-vertical;
+  height: 120px;
+}
+
+/* TIMER */
+.timer button {
+  width: 30%;
+  background: rgba(255,255,255,.15);
+  color: white;
+}
+
+.countdown {
+  margin-top: 6px;
+  color: #93c5fd;
 }
