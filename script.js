@@ -11,7 +11,6 @@ const AUDIO_LIST = [
 ];
 
 /*********************************/
-
 const home = document.getElementById("home");
 const audioScreen = document.getElementById("audioScreen");
 const audioGrid = document.getElementById("audioGrid");
@@ -19,23 +18,28 @@ const audioControls = document.getElementById("audioControls");
 const countdown = document.getElementById("countdown");
 const playBtn = document.getElementById("playToggle");
 
-let selected = [];
-let audios = {};
+let selected = [];          // tanlangan audiolar
+let audios = {};            // file -> Audio object
 let timer = null;
 let isPlaying = false;
 
-/* NAV */
+/* =============================
+   NAVIGATION
+============================= */
 function openAudio() {
   home.classList.remove("active");
   audioScreen.classList.add("active");
 }
+
 function goHome() {
   stopAll();
   audioScreen.classList.remove("active");
   home.classList.add("active");
 }
 
-/* 🔹 AUDIO TUGMALARINI AVTO YARATISH */
+/* =============================
+   AUDIO BUTTONLARNI YARATISH
+============================= */
 AUDIO_LIST.forEach(item => {
   const btn = document.createElement("button");
   btn.className = "audio-btn";
@@ -44,34 +48,48 @@ AUDIO_LIST.forEach(item => {
   audioGrid.appendChild(btn);
 });
 
-/* TOGGLE AUDIO (MAX 3 TA) */
+/* =============================
+   AUDIO TANLASH / O‘CHIRISH
+   (MAX 3 TA)
+============================= */
 function toggleAudio(file, btn) {
   const idx = selected.indexOf(file);
 
   if (idx === -1) {
     if (selected.length >= 3) return;
+
     selected.push(file);
     btn.classList.add("active");
+
+    // 🔴 AUDIO FAQAT BIR MARTA YARATILADI
+    if (!audios[file]) {
+      const audio = new Audio(file);
+      audio.loop = true;
+      audio.volume = 0.5;
+      audios[file] = audio;
+    }
+
   } else {
     selected.splice(idx, 1);
     btn.classList.remove("active");
+
     if (audios[file]) {
       audios[file].pause();
       delete audios[file];
     }
   }
+
   renderMiddle();
 }
 
-/* O‘RTA QISM */
+/* =============================
+   O‘RTA QISM (VOLUME CONTROL)
+============================= */
 function renderMiddle() {
   audioControls.innerHTML = "";
 
   selected.forEach(file => {
-    const audio = audios[file] || new Audio(file);
-    audio.loop = true;
-    audio.volume = 0.5;
-    audios[file] = audio;
+    const audio = audios[file];
 
     const div = document.createElement("div");
     div.className = "middle-item";
@@ -85,8 +103,12 @@ function renderMiddle() {
     vol.min = 0;
     vol.max = 1;
     vol.step = 0.01;
-    vol.value = 0.5;
-    vol.oninput = () => audio.volume = vol.value;
+    vol.value = audio.volume;
+
+    // 🔴 MUHIM: SLIDER HAQIQIY AUDIOGA ULANADI
+    vol.oninput = () => {
+      audio.volume = vol.value;
+    };
 
     div.appendChild(name);
     div.appendChild(vol);
@@ -94,7 +116,9 @@ function renderMiddle() {
   });
 }
 
-/* ▶️ PLAY / ⏸ PAUSE */
+/* =============================
+   PLAY / PAUSE
+============================= */
 function globalPlay() {
   if (selected.length === 0) {
     alert("Avval audio tanlang");
@@ -103,9 +127,7 @@ function globalPlay() {
 
   if (!isPlaying) {
     selected.forEach(file => {
-      const a = audios[file];
-      a.currentTime = 0;
-      a.play();
+      audios[file].play();
     });
     playBtn.textContent = "⏸ Pause";
     isPlaying = true;
@@ -116,18 +138,20 @@ function globalPlay() {
   }
 }
 
-/* ⏱ TIMER */
-function setTimer(m) {
+/* =============================
+   TIMER (15 / 30 / 60)
+============================= */
+function setTimer(min) {
   clearInterval(timer);
-  let s = m * 60;
+  let sec = min * 60;
   countdown.textContent = "";
 
   timer = setInterval(() => {
-    s--;
+    sec--;
     countdown.textContent =
-      `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+      `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, "0")}`;
 
-    if (s <= 0) {
+    if (sec <= 0) {
       clearInterval(timer);
       stopAll();
       playBtn.textContent = "▶️ Play";
@@ -136,8 +160,9 @@ function setTimer(m) {
   }, 1000);
 }
 
-/* STOP */
+/* =============================
+   STOP HAMMASI
+============================= */
 function stopAll() {
   Object.values(audios).forEach(a => a.pause());
 }
-
