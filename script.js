@@ -4,7 +4,7 @@
 **********************************/
 const AUDIO_LIST = [
   { file: "audios/rain.mp3", name: "🌧️ Yomg‘ir" },
-  { file: "audios/okean.mp3", name: "🌊 Dengiz" },
+  { file: "audios/ocean.mp3", name: "🌊 Dengiz" },
 
 
   // ➕ yangi audio:
@@ -156,4 +156,5 @@ function setTimer(min) {
 function stopAll() {
   Object.values(audios).forEach(a => a.pause());
 }
+
 
