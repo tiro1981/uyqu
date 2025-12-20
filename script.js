@@ -4,9 +4,7 @@
 **********************************/
 
 const AUDIO_LIST = [
-  { file: "audios/yomgir.mp3", name: "🌧️ Yomg‘ir" },
-  { file: "audios/dengiz.mp3", name: "🌊 Dengiz" },
-  { file: "audios/shamol.mp3", name: "🍃 Shamol" }
+  { file: "audios/rain.mp3", name: "🌧️ Yomg‘ir" },
 
   // 🔽 YANGI AUDIO QO‘SHISH NAMUNASI:
   // { file: "audios/qushlar.mp3", name: "🐦 Qushlar" }
@@ -142,3 +140,4 @@ function setTimer(m) {
 function stopAll() {
   Object.values(audios).forEach(a => a.pause());
 }
+
