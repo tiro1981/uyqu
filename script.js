@@ -1,46 +1,45 @@
 /*********************************
- 🔹 1. AUDIO RO‘YXATI (ADMIN O‘RNIGA)
- 🔹 YANGI AUDIO QO‘SHISH FAFAQAT SHU YERDA
+ 🔹 AUDIO RO‘YXATI
+ 🔹 YANGI AUDIO FAQAT SHU YERDA
 **********************************/
-
 const AUDIO_LIST = [
-  { file: "audios/rain.mp3", name: "🌧️ Yomg‘ir" },
+  { file: "audios/yomgir.mp3", name: "🌧️ Yomg‘ir" },
+  { file: "audios/dengiz.mp3", name: "🌊 Dengiz" },
+  { file: "audios/shamol.mp3", name: "🍃 Shamol" }
 
-  // 🔽 YANGI AUDIO QO‘SHISH NAMUNASI:
+  // ➕ yangi audio:
   // { file: "audios/qushlar.mp3", name: "🐦 Qushlar" }
 ];
 
 /*********************************/
 
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
 const home = document.getElementById("home");
 const audioScreen = document.getElementById("audioScreen");
 const audioGrid = document.getElementById("audioGrid");
 const audioControls = document.getElementById("audioControls");
+const masterVolumeBox = document.getElementById("masterVolumeBox");
 const countdown = document.getElementById("countdown");
 const playBtn = document.getElementById("playToggle");
 
-let selected = [];     // tanlangan audiolar
-let audios = {};       // file -> Audio object
+let selected = [];
+let audios = {};
 let timer = null;
 let isPlaying = false;
 
-/* =============================
-   NAVIGATION
-============================= */
+/* NAV */
 function openAudio() {
   home.classList.remove("active");
   audioScreen.classList.add("active");
 }
-
 function goHome() {
   stopAll();
   audioScreen.classList.remove("active");
   home.classList.add("active");
 }
 
-/* =============================
-   AUDIO BUTTONLARNI AVTO YARATISH
-============================= */
+/* AUDIO BUTTONLAR */
 AUDIO_LIST.forEach(item => {
   const btn = document.createElement("button");
   btn.className = "audio-btn";
@@ -49,48 +48,33 @@ AUDIO_LIST.forEach(item => {
   audioGrid.appendChild(btn);
 });
 
-/* =============================
-   AUDIO TANLASH / O‘CHIRISH
-   (MAX 3 TA)
-============================= */
+/* TOGGLE AUDIO */
 function toggleAudio(file, btn) {
   const idx = selected.indexOf(file);
 
   if (idx === -1) {
     if (selected.length >= 3) return;
-
     selected.push(file);
     btn.classList.add("active");
 
-    // 🔴 AUDIO FAQAT BIR MARTA YARATILADI
     if (!audios[file]) {
       const audio = new Audio(file);
       audio.loop = true;
       audio.volume = 0.5;
-
-      // 🔴 iOS UCHUN MUHIM
       audio.load();
-
       audios[file] = audio;
     }
-
   } else {
     selected.splice(idx, 1);
     btn.classList.remove("active");
-
-    if (audios[file]) {
-      audios[file].pause();
-      delete audios[file];
-    }
+    audios[file].pause();
+    delete audios[file];
   }
 
   renderMiddle();
 }
 
-/* =============================
-   O‘RTA QISM (VOLUME CONTROL)
-   iOS MOS WORKAROUND BILAN
-============================= */
+/* O‘RTA QISM */
 function renderMiddle() {
   audioControls.innerHTML = "";
 
@@ -104,37 +88,33 @@ function renderMiddle() {
     name.textContent =
       AUDIO_LIST.find(a => a.file === file)?.name || "Audio";
 
-    const vol = document.createElement("input");
-    vol.type = "range";
-    vol.min = 0;
-    vol.max = 1;
-    vol.step = 0.01;
-    vol.value = audio.volume;
-
-    // 🔴 iOS UCHUN ASOSIY TUZATISH
-    vol.oninput = () => {
-      const v = vol.value;
-
-      // Agar audio pauzada bo‘lsa (iOS cheklovi)
-      if (audio.paused) {
-        audio.play().then(() => {
-          audio.volume = v;
-          audio.pause();
-        }).catch(() => {});
-      } else {
-        audio.volume = v;
-      }
-    };
-
     div.appendChild(name);
-    div.appendChild(vol);
+
+    if (!isIOS) {
+      const vol = document.createElement("input");
+      vol.type = "range";
+      vol.min = 0;
+      vol.max = 1;
+      vol.step = 0.01;
+      vol.value = audio.volume;
+      vol.oninput = () => audio.volume = vol.value;
+      div.appendChild(vol);
+    }
+
     audioControls.appendChild(div);
+  });
+
+  masterVolumeBox.style.display = isIOS ? "block" : "none";
+}
+
+/* MASTER VOLUME (iPhone) */
+function setMasterVolume(v) {
+  Object.values(audios).forEach(a => {
+    a.volume = v;
   });
 }
 
-/* =============================
-   ▶️ PLAY / ⏸ PAUSE
-============================= */
+/* PLAY / PAUSE */
 function globalPlay() {
   if (selected.length === 0) {
     alert("Avval audio tanlang");
@@ -142,21 +122,17 @@ function globalPlay() {
   }
 
   if (!isPlaying) {
-    selected.forEach(file => {
-      audios[file].play().catch(() => {});
-    });
+    selected.forEach(file => audios[file].play());
     playBtn.textContent = "⏸ Pause";
     isPlaying = true;
   } else {
-    Object.values(audios).forEach(a => a.pause());
+    stopAll();
     playBtn.textContent = "▶️ Play";
     isPlaying = false;
   }
 }
 
-/* =============================
-   ⏱ TIMER (15 / 30 / 60)
-============================= */
+/* TIMER */
 function setTimer(min) {
   clearInterval(timer);
   let sec = min * 60;
@@ -176,9 +152,7 @@ function setTimer(min) {
   }, 1000);
 }
 
-/* =============================
-   STOP HAMMASI
-============================= */
+/* STOP */
 function stopAll() {
   Object.values(audios).forEach(a => a.pause());
 }
