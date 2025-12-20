@@ -11,6 +11,7 @@ const AUDIO_LIST = [
 ];
 
 /*********************************/
+
 const home = document.getElementById("home");
 const audioScreen = document.getElementById("audioScreen");
 const audioGrid = document.getElementById("audioGrid");
@@ -18,8 +19,8 @@ const audioControls = document.getElementById("audioControls");
 const countdown = document.getElementById("countdown");
 const playBtn = document.getElementById("playToggle");
 
-let selected = [];          // tanlangan audiolar
-let audios = {};            // file -> Audio object
+let selected = [];     // tanlangan audiolar
+let audios = {};       // file -> Audio object
 let timer = null;
 let isPlaying = false;
 
@@ -38,7 +39,7 @@ function goHome() {
 }
 
 /* =============================
-   AUDIO BUTTONLARNI YARATISH
+   AUDIO BUTTONLARNI AVTO YARATISH
 ============================= */
 AUDIO_LIST.forEach(item => {
   const btn = document.createElement("button");
@@ -66,6 +67,10 @@ function toggleAudio(file, btn) {
       const audio = new Audio(file);
       audio.loop = true;
       audio.volume = 0.5;
+
+      // 🔴 iOS UCHUN MUHIM
+      audio.load();
+
       audios[file] = audio;
     }
 
@@ -84,6 +89,7 @@ function toggleAudio(file, btn) {
 
 /* =============================
    O‘RTA QISM (VOLUME CONTROL)
+   iOS MOS WORKAROUND BILAN
 ============================= */
 function renderMiddle() {
   audioControls.innerHTML = "";
@@ -105,9 +111,19 @@ function renderMiddle() {
     vol.step = 0.01;
     vol.value = audio.volume;
 
-    // 🔴 MUHIM: SLIDER HAQIQIY AUDIOGA ULANADI
+    // 🔴 iOS UCHUN ASOSIY TUZATISH
     vol.oninput = () => {
-      audio.volume = vol.value;
+      const v = vol.value;
+
+      // Agar audio pauzada bo‘lsa (iOS cheklovi)
+      if (audio.paused) {
+        audio.play().then(() => {
+          audio.volume = v;
+          audio.pause();
+        }).catch(() => {});
+      } else {
+        audio.volume = v;
+      }
     };
 
     div.appendChild(name);
@@ -117,7 +133,7 @@ function renderMiddle() {
 }
 
 /* =============================
-   PLAY / PAUSE
+   ▶️ PLAY / ⏸ PAUSE
 ============================= */
 function globalPlay() {
   if (selected.length === 0) {
@@ -127,7 +143,7 @@ function globalPlay() {
 
   if (!isPlaying) {
     selected.forEach(file => {
-      audios[file].play();
+      audios[file].play().catch(() => {});
     });
     playBtn.textContent = "⏸ Pause";
     isPlaying = true;
@@ -139,7 +155,7 @@ function globalPlay() {
 }
 
 /* =============================
-   TIMER (15 / 30 / 60)
+   ⏱ TIMER (15 / 30 / 60)
 ============================= */
 function setTimer(min) {
   clearInterval(timer);
