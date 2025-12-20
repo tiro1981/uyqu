@@ -10,25 +10,21 @@
 
 <!-- HOME -->
 <div id="home" class="screen active">
-  <h1>Uxlashga<br>tayormisiz.</h1>
+  <h1>Uxlashga<br>tayormisiz?</h1>
   <button class="big" onclick="openAudio()">🎧 Audio</button>
 </div>
 
-<!-- AUDIO (MIX ICHIDA) -->
+<!-- AUDIO -->
 <div id="audioScreen" class="screen">
   <h1>Audio</h1>
 
-  <!-- TOP: audio tanlash -->
-  <div class="audio-grid">
-    <button class="audio-btn" onclick="toggleAudio('sea.mp3', this)">🌊 Dengiz</button>
-    <button class="audio-btn" onclick="toggleAudio('rain.mp3', this)">🌧️ Yomg‘ir</button>
-    <button class="audio-btn" onclick="toggleAudio('noise.mp3', this)">🎧 Shovqin</button>
-  </div>
+  <!-- 🔹 AUDIO TUGMALAR BU YERGA AVTO QO‘SHILADI -->
+  <div class="audio-grid" id="audioGrid"></div>
 
-  <!-- MIDDLE: tanlanganlar -->
+  <!-- 🔹 TANLANGAN AUDIOLAR -->
   <div id="audioControls" class="audio-middle"></div>
 
-  <!-- TIMER -->
+  <!-- 🔹 TIMER -->
   <div class="timer">
     <button onclick="setTimer(15)">15</button>
     <button onclick="setTimer(30)">30</button>
@@ -36,7 +32,7 @@
     <div id="countdown" class="countdown"></div>
   </div>
 
-  <!-- BOTTOM -->
+  <!-- 🔹 PLAY / PAUSE -->
   <button id="playToggle" class="big" onclick="globalPlay()">▶️ Play</button>
   <button class="big exit" onclick="goHome()">⬅️ Orqaga</button>
 </div>
