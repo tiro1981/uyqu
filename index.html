@@ -18,13 +18,26 @@
 <div id="audioScreen" class="screen">
   <h1>Audio</h1>
 
-  <!-- 🔹 AUDIO TUGMALAR BU YERGA AVTO QO‘SHILADI -->
+  <!-- Audio tugmalar avtomatik chiqadi -->
   <div class="audio-grid" id="audioGrid"></div>
 
-  <!-- 🔹 TANLANGAN AUDIOLAR -->
+  <!-- Tanlangan audio + volume -->
   <div id="audioControls" class="audio-middle"></div>
 
-  <!-- 🔹 TIMER -->
+  <!-- 🔊 MASTER VOLUME (iPhone uchun) -->
+  <div id="masterVolumeBox" class="master-volume">
+    <span>🔊 Umumiy ovoz</span>
+    <input
+      type="range"
+      min="0"
+      max="1"
+      step="0.01"
+      value="0.5"
+      oninput="setMasterVolume(this.value)"
+    >
+  </div>
+
+  <!-- TIMER -->
   <div class="timer">
     <button onclick="setTimer(15)">15</button>
     <button onclick="setTimer(30)">30</button>
@@ -32,7 +45,7 @@
     <div id="countdown" class="countdown"></div>
   </div>
 
-  <!-- 🔹 PLAY / PAUSE -->
+  <!-- PLAY -->
   <button id="playToggle" class="big" onclick="globalPlay()">▶️ Play</button>
   <button class="big exit" onclick="goHome()">⬅️ Orqaga</button>
 </div>
