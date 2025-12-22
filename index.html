@@ -1,53 +1,80 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8">
-  <title>Uyqu</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0"/>
+  <title>Uyqu va Relax</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
-<!-- HOME -->
-<div id="home" class="screen active">
-  <h1>Uxlashga<br>tayormisiz?</h1>
-  <button class="big" onclick="openAudio()">🎧 Audio</button>
+<div class="bg-animation">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
 </div>
 
-<!-- AUDIO -->
-<div id="audioScreen" class="screen">
-  <h1>Audio</h1>
-
-  <!-- Audio tugmalar avtomatik chiqadi -->
-  <div class="audio-grid" id="audioGrid"></div>
-
-  <!-- Tanlangan audio + volume -->
-  <div id="audioControls" class="audio-middle"></div>
-
-  <!-- 🔊 MASTER VOLUME (iPhone uchun) -->
-  <div id="masterVolumeBox" class="master-volume">
-    <span>🔊 Umumiy ovoz</span>
-    <input
-      type="range"
-      min="0"
-      max="1"
-      step="0.01"
-      value="0.5"
-      oninput="setMasterVolume(this.value)"
-    >
+<div class="app-container">
+  
+  <div id="sounds" class="screen active">
+    <header>
+      <h3>Kutubxona</h3>
+      <div class="search-box">
+        <span class="material-icons-round">search</span>
+        <input id="search" placeholder="Qidirish..." oninput="renderSounds()"/>
+      </div>
+    </header>
+    
+    <div id="soundList" class="sound-grid"></div>
   </div>
 
-  <!-- TIMER -->
-  <div class="timer">
-    <button onclick="setTimer(15)">15</button>
-    <button onclick="setTimer(30)">30</button>
-    <button onclick="setTimer(60)">60</button>
-    <div id="countdown" class="countdown"></div>
+  <div id="mix" class="screen">
+    <header>
+      <h3>Mening Mixim</h3>
+    </header>
+    <div id="mixList" class="mix-list"></div>
+
+    <div class="control-panel">
+      <div class="timer-section">
+        <div class="timer-buttons">
+          <button onclick="setTimer(15)">15m</button>
+          <button onclick="setTimer(30)">30m</button>
+          <button onclick="setTimer(60)">60m</button>
+        </div>
+        <div id="countdown"></div>
+      </div>
+
+      <button id="mainPlayBtn" class="main-play-btn" onclick="togglePlayAllMix()">
+        <span class="material-icons-round">play_arrow</span>
+        <span>Mixni tinglash</span>
+      </button>
+    </div>
   </div>
 
-  <!-- PLAY -->
-  <button id="playToggle" class="big" onclick="globalPlay()">▶️ Play</button>
-  <button class="big exit" onclick="goHome()">⬅️ Orqaga</button>
+  <div id="profile" class="screen">
+    <div class="profile-card">
+      <div class="avatar">
+        <span class="material-icons-round" style="color: white; font-size: 40px;">person</span>
+      </div>
+      <h2>Foydalanuvchi</h2>
+      <p style="opacity: 0.7; margin-top: 5px;">Premium versiya faol emas</p>
+      <button class="timer-buttons" style="margin-top: 20px; padding: 10px 20px; background: rgba(255,255,255,0.1); border:none; color:white; border-radius:10px;">Sozlamalar</button>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="showTab('sounds', this)">
+      <span class="material-icons-round">grid_view</span>
+    </button>
+    <button class="nav-item" onclick="showTab('mix', this)">
+      <span class="material-icons-round">tune</span>
+    </button>
+    <button class="nav-item" onclick="showTab('profile', this)">
+      <span class="material-icons-round">person</span>
+    </button>
+  </nav>
+
 </div>
 
 <script src="script.js"></script>
