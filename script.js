@@ -2,8 +2,8 @@
 const SOUNDS = [
     { id: 1, file: "audios/rain.mp3", name: "Yomg‘ir", icon: "cloudy_snowing" },
     { id: 2, file: "audios/ocean.mp3", name: "Dengiz", icon: "waves" },
-    { id: 3, file: "audios/wind.mp3", name: "Shamol", icon: "air" },
-    { id: 4, file: "audios/noise.mp3", name: "Shovqin", icon: "graphic_eq" },
+    { id: 3, file: "audios/qushlar.mp3", name: "Qushlar", icon: "birds" },
+    { id: 4, file: "audios/daryo.mp3", name: "Daryo", icon: "river" },
     { id: 5, file: "audios/fire.mp3", name: "Olov", icon: "local_fire_department" },
     { id: 6, file: "audios/bird.mp3", name: "Qushlar", icon: "flutter_dash" },
     { id: 7, file: "audios/night.mp3", name: "Tun", icon: "nights_stay" },
@@ -212,3 +212,4 @@ function stopAllSounds() {
 
 // Ilovani ishga tushirish
 renderSounds();
+
