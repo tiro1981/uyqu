@@ -1,82 +1,284 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0"/>
-  <title>Uyqu va Relax</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-  <link rel="stylesheet" href="style.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Super Mix App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --tg-bg: var(--tg-theme-bg-color, #ffffff);
+            --tg-text: var(--tg-theme-text-color, #000000);
+            --primary: var(--tg-theme-button-color, #3390ec);
+            --white: #ffffff;
+        }
+
+        body {
+            background-color: var(--tg-bg);
+            color: var(--tg-text);
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            overflow: hidden;
+            transition: background 0.3s;
+        }
+
+        /* 1. Profil va Daraja */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .user-name {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .level-badge {
+            background: var(--primary);
+            color: var(--white);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-top: 5px;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(51, 144, 236, 0.3);
+        }
+
+        /* 2. Asosiy blok */
+        .card {
+            background: var(--tg-theme-secondary-bg-color, #f4f4f5);
+            padding: 30px;
+            border-radius: 30px;
+            width: 80%;
+            max-width: 350px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        /* 3. Raqam va Animatsiya */
+        #count {
+            font-size: 80px;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 10px 0;
+            transition: transform 0.1s;
+            display: inline-block;
+        }
+        .pop {
+            transform: scale(1.2);
+        }
+
+        /* 4. Progress Bar */
+        .progress-container {
+            width: 100%;
+            background: rgba(0,0,0,0.1);
+            height: 10px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .next-level-text {
+            font-size: 12px;
+            opacity: 0.6;
+            margin-bottom: 20px;
+        }
+
+        /* 5. Tugmalar */
+        .btn-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: none;
+            font-size: 30px;
+            color: var(--white);
+            background: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn:active { transform: scale(0.9); }
+        .btn-red { background: #ff3b30; }
+
+        /* 6. Pastki tugmalar */
+        .actions {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+        }
+        .action-btn {
+            background: none;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+    </style>
 </head>
 <body>
 
-<div class="bg-animation">
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
-</div>
+    <div class="header">
+        <div class="user-name" id="name">Salom!</div>
+        <div class="level-badge" id="level">🌱 Boshlovchi</div>
+    </div>
 
-<div class="app-container">
-  
-  <div id="sounds" class="screen active">
-    <header>
-      <h3>Kutubxona</h3>
-      <div class="search-box">
-        <span class="material-icons-round">search</span>
-        <input id="search" placeholder="Qidirish..." oninput="renderSounds()"/>
-      </div>
-    </header>
-    
-    <div id="soundList" class="sound-grid"></div>
-  </div>
-
-  <div id="mix" class="screen">
-    <header>
-      <h3>Mening Mixim</h3>
-    </header>
-    <div id="mixList" class="mix-list"></div>
-
-    <div class="control-panel">
-      <div class="timer-section">
-        <div class="timer-buttons">
-          <button onclick="setTimer(15)">15m</button>
-          <button onclick="setTimer(30)">30m</button>
-          <button onclick="setTimer(60)">60m</button>
+    <div class="card">
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
         </div>
-        <div id="countdown"></div>
-      </div>
+        <div class="next-level-text" id="next-level-info">Keyingi darajagacha: 10</div>
 
-      <button id="mainPlayBtn" class="main-play-btn" onclick="togglePlayAllMix()">
-        <span class="material-icons-round">play_arrow</span>
-        <span>Mixni tinglash</span>
-      </button>
+        <div id="count">0</div>
+
+        <div class="btn-row">
+            <button class="btn btn-red" onclick="update(-1)">−</button>
+            <button class="btn" onclick="update(1)">+</button>
+        </div>
     </div>
-  </div>
 
-  <div id="profile" class="screen">
-    <div class="profile-card">
-      <div class="avatar">
-        <span class="material-icons-round" style="color: white; font-size: 40px;">person</span>
-      </div>
-      <h2>Foydalanuvchi</h2>
-      <p style="opacity: 0.7; margin-top: 5px;">Premium versiya faol emas</p>
-      <button class="timer-buttons" style="margin-top: 20px; padding: 10px 20px; background: rgba(255,255,255,0.1); border:none; color:white; border-radius:10px;">Sozlamalar</button>
+    <div class="actions">
+        <button class="action-btn" onclick="resetApp()">🔄 Tozalash</button>
+        <button class="action-btn" style="background:var(--primary); color:white;" onclick="shareResult()">📤 Ulashish</button>
     </div>
-  </div>
 
-  <nav class="bottom-nav">
-    <button class="nav-item active" onclick="showTab('sounds', this)">
-      <span class="material-icons-round">grid_view</span>
-    </button>
-    <button class="nav-item" onclick="showTab('mix', this)">
-      <span class="material-icons-round">tune</span>
-    </button>
-    <button class="nav-item" onclick="showTab('profile', this)">
-      <span class="material-icons-round">person</span>
-    </button>
-  </nav>
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand(); 
 
-</div>
+        // O'zgaruvchilar
+        let count = 0;
+        const levels = [
+            { name: "🌱 Boshlovchi", limit: 0 },
+            { name: "⚡ Chaqqon", limit: 20 },
+            { name: "🔥 Professional", limit: 50 },
+            { name: "👑 Afsona", limit: 100 },
+            { name: "🚀 Kosmos", limit: 200 }
+        ];
 
-<script src="script.js"></script>
+        // Elementlar
+        const elCount = document.getElementById('count');
+        const elLevel = document.getElementById('level');
+        const elProgress = document.getElementById('progress');
+        const elNextInfo = document.getElementById('next-level-info');
+        const elName = document.getElementById('name');
+
+        // --- 1. YUKLASH ---
+        function init() {
+            // Ism
+            if (tg.initDataUnsafe?.user) {
+                elName.innerText = `Salom, ${tg.initDataUnsafe.user.first_name}!`;
+            } else {
+                elName.innerText = "Salom, Mehmon!";
+            }
+
+            // Xotira
+            const saved = localStorage.getItem('superMixCount');
+            if (saved) count = parseInt(saved);
+            
+            render();
+        }
+
+        // --- 2. HISOBLASH VA ANIMATSIYA ---
+        function update(amount) {
+            count += amount;
+            if (count < 0) count = 0;
+
+            // Xotira
+            localStorage.setItem('superMixCount', count);
+
+            // Vibratsiya
+            if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+
+            // Animatsiya (pop effekti)
+            elCount.classList.add('pop');
+            setTimeout(() => elCount.classList.remove('pop'), 100);
+
+            render();
+        }
+
+        // --- 3. DARAJA VA PROGRESS TIZIMI ---
+        function render() {
+            elCount.innerText = count;
+
+            // Darajani aniqlash
+            let currentLevel = levels[0];
+            let nextLimit = levels[1].limit;
+
+            for (let i = 0; i < levels.length; i++) {
+                if (count >= levels[i].limit) {
+                    currentLevel = levels[i];
+                    nextLimit = levels[i+1] ? levels[i+1].limit : count * 1.5; // Agar oxirgi level bo'lsa
+                }
+            }
+
+            elLevel.innerText = currentLevel.name;
+
+            // Progress barni hisoblash
+            // Oldingi daraja chegarasi
+            let prevLimit = 0; 
+            // Hozirgi darajadagi progress foizi
+            let percent = 0;
+            
+            // Murakkab hisob-kitob o'rniga oddiyroq usul:
+            // 100% gacha to'ldirish
+            if (count >= 200) {
+                percent = 100;
+                elNextInfo.innerText = "Siz eng yuqori darajadasiz!";
+            } else {
+                percent = (count / nextLimit) * 100;
+                elNextInfo.innerText = `Keyingi darajagacha: ${nextLimit - count}`;
+            }
+            
+            elProgress.style.width = `${percent}%`;
+        }
+
+        // --- 4. SHARE (ULASHISH) ---
+        function shareResult() {
+            const text = `Mening Mix hisobim: ${count} ga yetdi! Darajam: ${elLevel.innerText}. Senchi?`;
+            const url = "https://t.me/share/url?url=" + encodeURIComponent(window.location.href) + "&text=" + encodeURIComponent(text);
+            
+            // Telegram ichida ochish
+            tg.openTelegramLink(url);
+        }
+
+        function resetApp() {
+            if(confirm("Haqiqatan ham o'chirmoqchimisiz?")) {
+                count = 0;
+                localStorage.setItem('superMixCount', 0);
+                if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('warning');
+                render();
+            }
+        }
+
+        // Ishga tushirish
+        init();
+
+        // Rang o'zgarishini kuzatish
+        tg.onEvent('themeChanged', function() {
+            document.documentElement.style.setProperty('--tg-bg', tg.backgroundColor);
+            document.documentElement.style.setProperty('--tg-text', tg.themeParams.text_color);
+        });
+
+    </script>
 </body>
 </html>
