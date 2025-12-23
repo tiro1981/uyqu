@@ -11,18 +11,31 @@ const CATEGORIES_DATA = [
 ];
 
 // Ovozlar bazasi (Barcha ovozlar shu yerda)
+
 const SOUNDS = [
-    { id: 1, category: "Yomg'ir", file: "audios/rain_light.mp3", name: "Yengil yomg'ir", icon: "water_drop" },
-    { id: 2, category: "Yomg'ir", file: "audios/rain_heavy.mp3", name: "Jala", icon: "umbrella" },
+    { id: 1, category: "Yomg'ir", file: "audios/rain.mp3", name: "Yengil yomg'ir", icon: "water_drop" },
+    { id: 2, category: "Yomg'ir", file: "audios/rain1.mp3", name: "Yengil yomg'ir", icon: "water_drop" },
+    { id: 3, category: "Yomg'ir", file: "audios/rain2.mp3", name: "Yengil yomg'ir", icon: "water_drop" },
+    { id: 4, category: "Yomg'ir", file: "audios/rain3.mp3", name: "Yengil yomg'ir", icon: "water_drop" },
+    { id: 5, category: "Yomg'ir", file: "audios/rain4.mp3", name: "Yengil yomg'ir", icon: "water_drop" },
+    { id: 6, category: "Yomg'ir", file: "audios/rain5.mp3", name: "Yengil yomg'ir", icon: "water_drop" },
+    { id: 7, category: "Yomg'ir", file: "audios/rain6.mp3", name: "Yengil yomg'ir", icon: "water_drop" },
+    { id: 8, category: "Yomg'ir", file: "audios/rain7.mp3", name: "Yengil yomg'ir", icon: "water_drop" },
+    
     { id: 4, category: "Dengiz", file: "audios/ocean_waves.mp3", name: "Sohil to'lqini", icon: "waves" },
     { id: 5, category: "Dengiz", file: "audios/underwater.mp3", name: "Suv osti", icon: "scuba_diving" },
     { id: 6, category: "Shamol", file: "audios/wind_soft.mp3", name: "Mayin shamol", icon: "air" },
+    
     { id: 8, category: "Olov", file: "audios/fireplace.mp3", name: "Kamin", icon: "fireplace" },
     { id: 9, category: "Olov", file: "audios/bonfire.mp3", name: "Gulxan", icon: "local_fire_department" },
+    
     { id: 10, category: "Qushlar", file: "audios/birds_morning.mp3", name: "Tonggi qushlar", icon: "flutter_dash" },
+    
     { id: 12, category: "O'rmon", file: "audios/forest_day.mp3", name: "Yozgi o'rmon", icon: "forest" },
+    
     { id: 14, category: "Tun", file: "audios/crickets.mp3", name: "Chigirtkalar", icon: "bug_report" },
     { id: 15, category: "Tun", file: "audios/night_ambience.mp3", name: "Tun sukunati", icon: "nights_stay" },
+    
     { id: 16, category: "Chaqmoq", file: "audios/thunder_distant.mp3", name: "Uzoq guldurak", icon: "flash_on" },
 ];
 
@@ -458,3 +471,4 @@ function setupTelegram() {
 function haptic(style = 'light') {
     if (window.Telegram.WebApp.HapticFeedback) window.Telegram.WebApp.HapticFeedback.impactOccurred(style);
 }
+
