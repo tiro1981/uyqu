@@ -19,15 +19,24 @@
 <div class="app-container">
   
   <div id="sounds" class="screen active">
-    <header>
-      <h3>Kutubxona</h3>
-      <div class="search-box">
-        <span class="material-icons-round">search</span>
-        <input id="search" type="text" placeholder="Qidirish..." />
-      </div>
+    
+    <header class="library-header">
+      <button id="backBtn" onclick="goBack()" class="icon-btn back-btn" style="display: none;">
+        <span class="material-icons-round">arrow_back_ios_new</span>
+      </button>
+      
+      <h3 id="libraryTitle">Kutubxona</h3>
     </header>
     
-    <div id="soundList" class="sound-grid">
+    <div class="search-box">
+      <span class="material-icons-round">search</span>
+      <input id="search" type="text" placeholder="Ovoz nomini yozing..." />
+    </div>
+    
+    <div id="categoriesGrid" class="sound-grid">
+      </div>
+
+    <div id="soundList" class="sound-grid" style="display: none;">
       </div>
   </div>
 
@@ -35,9 +44,9 @@
     <header>
       <h3>Mening Mixim</h3>
     </header>
+    
     <div id="mixList" class="mix-list">
-        <p style="text-align:center; opacity:0.5; margin-top:50px;">Hozircha tanlangan ovozlar yo'q</p>
-    </div>
+        </div>
 
     <div class="control-panel">
       <div class="timer-section">
@@ -59,14 +68,16 @@
   <div id="profile" class="screen">
     <div class="profile-card">
       <div class="avatar">
-        <span class="material-icons-round" style="color: white; font-size: 40px;">person</span>
+        <span class="material-icons-round" style="font-size: 40px; color: white;">person</span>
       </div>
       <h2 id="userName">Mehmon</h2>
-      <p style="opacity: 0.7; margin-top: 5px;">Bepul versiya</p>
+      <p style="opacity: 0.7; margin-top: 5px;">Relax & Uyqu</p>
       
-      <div class="stats" style="margin-top: 20px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 15px;">
+      <div class="stats-box">
           <small>Jami tinglash vaqti</small>
-          <h3>0 soat 0 daqiqa</h3>
+          <div id="totalTimeDisplay" class="time-counter">
+            0 soniya
+          </div>
       </div>
     </div>
   </div>
