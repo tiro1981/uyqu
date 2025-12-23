@@ -228,3 +228,36 @@ input[type="range"]::-webkit-slider-thumb {
   width: 80px; height: 80px; background: var(--accent); border-radius: 50%;
   margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;
 }
+/* --- 1. HAMMA MATNLAR O'RTADA --- */
+body, h1, h2, h3, p, span, div {
+  text-align: center;
+}
+
+/* Lekin Mix va Ovoz ichidagi flex elementlar chiroyli turishi uchun */
+.mix-head, .search-box {
+  text-align: left; /* Ichki elementlar joyida turishi uchun */
+}
+
+/* --- 2. MIX BO'LIMI AKTIV HOLATI (YANGI) --- */
+.mix-item-card {
+  transition: all 0.3s ease;
+  border: 1px solid transparent; /* Chegara uchun joy */
+}
+
+/* Musiqa chalinganda shu klass qo'shiladi */
+.mix-item-card.active-mix {
+  background: rgba(129, 140, 248, 0.25); /* Ko'k shaffof fon */
+  border-color: #818cf8; /* Chegara rangi */
+  box-shadow: 0 0 15px rgba(129, 140, 248, 0.2);
+}
+
+.mix-item-card.active-mix .mix-head span {
+  color: white;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+
+/* Qidiruv inputi yozuvi chapda turaversin (qulaylik uchun) */
+.search-box input {
+  text-align: left;
+}
