@@ -19,9 +19,11 @@ body {
   color: var(--text);
   height: 100vh;
   overflow: hidden;
+  /* HAMMA YOZUVLARNI MARKAZLASH */
+  text-align: center;
 }
 
-/* --- ORQA FON ANIMATSIYASI --- */
+/* --- ORQA FON --- */
 .bg-animation {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   overflow: hidden; z-index: -1; pointer-events: none;
@@ -38,121 +40,112 @@ body {
   100% { transform: translate(30px, 50px) scale(1.1); }
 }
 
-/* --- ASOSIY UI --- */
+/* --- APP CONTAINER --- */
 .app-container {
   max-width: 450px; margin: 0 auto; height: 100vh;
   display: flex; flex-direction: column; position: relative;
   background: rgba(15, 23, 42, 0.4);
 }
 
-header { padding-bottom: 10px; }
-h3 { margin-bottom: 15px; font-weight: 600; opacity: 0.9; letter-spacing: 0.5px; }
+header { padding: 10px 0 15px 0; }
+h3 { font-weight: 600; opacity: 0.9; letter-spacing: 0.5px; }
 
+/* KUTUBXONA HEADER (Orqaga tugmasi va Sarlavha uchun) */
+.library-header {
+  display: flex; 
+  align-items: center; 
+  justify-content: center; /* Sarlavha o'rtada */
+  position: relative;
+  height: 40px;
+  margin-bottom: 10px;
+}
+
+.back-btn {
+  position: absolute;
+  left: 0; /* Chap tomonga yopishtirish */
+  background: rgba(255,255,255,0.1); 
+  border: none; color: white;
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+}
+
+/* UI SCREENS */
 .screen {
   display: none; padding: 20px; flex: 1;
-  overflow-y: auto; padding-bottom: 180px; /* Player joyi */
+  overflow-y: auto; padding-bottom: 180px;
 }
 .screen.active { display: block; animation: fade 0.4s ease-out; }
 @keyframes fade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* QIDIRUV */
+/* --- QIDIRUV (DOIM KO'RINADIGAN) --- */
 .search-box {
   background: var(--card-bg); backdrop-filter: blur(10px);
-  border-radius: 12px; padding: 10px 15px; display: flex; align-items: center;
-  margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 12px; padding: 10px 15px; 
+  display: flex; align-items: center; /* Flex qilib ikonka va inputni yonma-yon qo'yamiz */
+  margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05);
 }
 .search-box input {
-  background: transparent; border: none; color: white; width: 100%; margin-left: 10px; outline: none;
+  background: transparent; border: none; color: white; 
+  width: 100%; margin-left: 10px; outline: none;
+  text-align: center; /* Input ichidagi yozuv ham markazda */
+  font-size: 0.95rem;
 }
 
-/* --- OVOZLAR GRIDI --- */
+/* --- KATEGORIYA KARTALARI --- */
 .sound-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Ikkita qat'iy teng ustun */
-  gap: 10px; /* Oraliq masofa ixcham */
-  padding-bottom: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
 }
 
+.category-card {
+  background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 18px;
+  height: 110px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  cursor: pointer; position: relative; overflow: hidden;
+  text-align: center;
+}
+.category-card:active { transform: scale(0.96); }
+
+.cat-icon { font-size: 38px; margin-bottom: 8px; color: #a5b4fc; }
+.cat-name { font-size: 1rem; font-weight: 600; color: white; }
+.cat-count { font-size: 0.75rem; color: #94a3b8; margin-top: 2px; }
+
+/* --- OVOZ KARTALARI (KATEGORIYA ICHIDA) --- */
 .sound-card {
   position: relative;
   background: var(--card-bg);
   backdrop-filter: blur(5px);
-  border-radius: 14px; /* Burchaklar biroz kichikroq */
-  
-  /* QAT'IY O'LCHAMLAR */
-  height: 85px; /* Balandlik kichraytirildi (oldin 100px edi) */
-  width: 100%;  /* Katak ichini to'liq egallaydi */
-  min-width: 0; /* Siqilib qolishni oldini oladi */
-  
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  border-radius: 14px;
+  height: 90px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
   text-align: center;
-  
   border: 1px solid rgba(255,255,255,0.05);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  overflow: hidden; /* Toshgan narsalarni kesib tashlash */
+  cursor: pointer; transition: all 0.2s ease;
 }
-
 .sound-card:active { transform: scale(0.96); }
-
-/* Play holati */
 .sound-card.playing {
   border-color: var(--accent);
   background: rgba(129, 140, 248, 0.2);
-  box-shadow: 0 2px 10px rgba(129, 140, 248, 0.2);
+  box-shadow: 0 4px 15px rgba(129, 140, 248, 0.2);
 }
-
-/* Ikonka */
-.sound-card .icon-main {
-  font-size: 28px; /* Ikonka kichraytirildi */
-  margin-bottom: 4px;
-  color: #cbd5e1;
-  transition: 0.3s;
-}
-
-.sound-card.playing .icon-main {
-  color: white; transform: scale(1.1);
-}
-
-/* Matn */
-.sound-card p {
-  font-size: 0.8rem; /* Matn kichraytirildi */
-  color: #94a3b8;
-  font-weight: 500;
-  white-space: nowrap; /* Matnni bir qator qilish */
-  overflow: hidden;
-  text-overflow: ellipsis; /* Sig'masa ... qo'yish */
-  width: 90%; /* Matn chetga taqalib qolmasligi uchun */
-}
+.sound-card .icon-main { font-size: 30px; margin-bottom: 5px; color: #cbd5e1; }
+.sound-card.playing .icon-main { color: white; transform: scale(1.1); }
+.sound-card p { font-size: 0.85rem; color: #94a3b8; font-weight: 500; width: 90%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .sound-card.playing p { color: white; }
 
-/* YURAKCHA (Juda ixcham) */
 .like-btn {
-  position: absolute;
-  top: 4px; right: 4px; /* Eng burchakka taqash */
-  background: transparent; /* Fon yo'q */
-  width: 24px; height: 24px;
-  border: none;
-  color: rgba(255,255,255,0.3);
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  z-index: 5;
+  position: absolute; top: 5px; right: 5px;
+  background: transparent; border: none;
+  width: 24px; height: 24px; color: rgba(255,255,255,0.3);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
 }
-.like-btn span { font-size: 16px; }
 .like-btn.active { color: #f43f5e; opacity: 1; }
-und-card.playing .icon-main {
-  color: white; transform: scale(1.1);
-}
-
-.sound-card p {
-  font-size: 0.85rem; /* Shrift kichraytirildi */
-  color: #94a3b8; font-weight: 500;
-  line-height: 1.2;
-}
-.sound-card.playing p { color: white; }
 
 /* --- MIX ITEM --- */
 .mix-item-card {
@@ -160,6 +153,8 @@ und-card.playing .icon-main {
   border-left: 4px solid var(--accent);
 }
 .mix-head { display: flex; justify-content: space-between; align-items: center; }
+.mix-head > div { justify-content: center; } /* Mix ichidagi icon va text markazda */
+
 .mix-settings {
   max-height: 0; overflow: hidden; transition: 0.4s ease; opacity: 0;
   display: flex; align-items: center; gap: 10px;
@@ -182,6 +177,7 @@ input[type="range"]::-webkit-slider-thumb {
   background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(20px);
   padding: 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);
   box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 100;
+  text-align: center;
 }
 .timer-buttons { display: flex; gap: 8px; margin-bottom: 8px; }
 .timer-buttons button {
@@ -189,7 +185,7 @@ input[type="range"]::-webkit-slider-thumb {
   color: #94a3b8; padding: 8px; border-radius: 10px; font-size: 0.8rem; cursor: pointer;
 }
 .timer-buttons button:hover { background: var(--accent); color: white; }
-#countdown { text-align: center; font-size: 0.9rem; color: var(--accent); font-weight: bold; height: 20px; }
+#countdown { height: 20px; color: var(--accent); font-weight: bold; margin-bottom: 5px; }
 
 .main-play-btn {
   width: 100%; padding: 12px; border: none; border-radius: 12px;
@@ -198,7 +194,40 @@ input[type="range"]::-webkit-slider-thumb {
   display: flex; align-items: center; justify-content: center; gap: 10px;
   cursor: pointer; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
 }
-.main-play-btn:active { transform: scale(0.98); }
+
+/* --- PROFIL VA STATISTIKA --- */
+.profile-card {
+  background: var(--card-bg); border-radius: 20px; padding: 40px 20px;
+  margin-top: 30px;
+  text-align: center; /* Profil ichidagi hamma narsa o'rtada */
+}
+.avatar {
+  width: 80px; height: 80px; background: var(--accent); border-radius: 50%;
+  margin: 0 auto 15px; display: flex; align-items: center; justify-content: center;
+}
+
+/* STATISTIKA BLOKI DIZAYNI */
+.stats-box {
+  margin-top: 30px;
+  background: rgba(0,0,0,0.25);
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.stats-box small {
+  color: #94a3b8;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+}
+.time-counter {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-top: 8px;
+  line-height: 1.5;
+  color: #818cf8; /* Moviy rang */
+  text-shadow: 0 0 20px rgba(129, 140, 248, 0.3);
+}
 
 /* --- MENU --- */
 .bottom-nav {
@@ -217,47 +246,4 @@ input[type="range"]::-webkit-slider-thumb {
 .nav-item.active {
   background: var(--accent); color: white; transform: translateY(-6px);
   box-shadow: 0 8px 20px rgba(129, 140, 248, 0.5);
-}
-
-/* PROFIL */
-.profile-card {
-  background: var(--card-bg); border-radius: 20px; padding: 40px 20px;
-  text-align: center; margin-top: 50px;
-}
-.avatar {
-  width: 80px; height: 80px; background: var(--accent); border-radius: 50%;
-  margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;
-}
-/* --- 1. HAMMA MATNLAR O'RTADA --- */
-body, h1, h2, h3, p, span, div {
-  text-align: center;
-}
-
-/* Lekin Mix va Ovoz ichidagi flex elementlar chiroyli turishi uchun */
-.mix-head, .search-box {
-  text-align: left; /* Ichki elementlar joyida turishi uchun */
-}
-
-/* --- 2. MIX BO'LIMI AKTIV HOLATI (YANGI) --- */
-.mix-item-card {
-  transition: all 0.3s ease;
-  border: 1px solid transparent; /* Chegara uchun joy */
-}
-
-/* Musiqa chalinganda shu klass qo'shiladi */
-.mix-item-card.active-mix {
-  background: rgba(129, 140, 248, 0.25); /* Ko'k shaffof fon */
-  border-color: #818cf8; /* Chegara rangi */
-  box-shadow: 0 0 15px rgba(129, 140, 248, 0.2);
-}
-
-.mix-item-card.active-mix .mix-head span {
-  color: white;
-  font-weight: bold;
-  text-shadow: 0 0 10px rgba(255,255,255,0.5);
-}
-
-/* Qidiruv inputi yozuvi chapda turaversin (qulaylik uchun) */
-.search-box input {
-  text-align: left;
 }
