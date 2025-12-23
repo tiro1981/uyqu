@@ -23,9 +23,9 @@ const SOUNDS = [
     { id: 8, category: "Yomg'ir", file: "audios/rain7.mp3", name: "8", icon: "water_drop" },
     
 
-    { id: 9, category: "Dengiz", file: "audios/ocean.mp3", name: "1", icon: "scuba_diving" },
-    { id: 10, category: "Dengiz", file: "audios/ocean1.mp3", name: "2", icon: "scuba_diving" },
-    { id: 11, category: "Dengiz", file: "audios/ocean2.mp3", name: "3", icon: "scuba_diving" },
+    { id: 9, category: "Dengiz", file: "audios/ocean.mp3", name: "1", icon: "tsunami" },
+    { id: 10, category: "Dengiz", file: "audios/ocean1.mp3", name: "2", icon: "tsunami" },
+    { id: 11, category: "Dengiz", file: "audios/ocean2.mp3", name: "3", icon: "tsunami" },
     { id: 12, category: "Dengiz", file: "audios/ocean3.mp3", name: "4", icon: "scuba_diving" },
     { id: 13, category: "Dengiz", file: "audios/ocean4.mp3", name: "5", icon: "scuba_diving" },
     { id: 14, category: "Dengiz", file: "audios/ocean5.mp3", name: "6", icon: "scuba_diving" },
@@ -478,6 +478,7 @@ function setupTelegram() {
 function haptic(style = 'light') {
     if (window.Telegram.WebApp.HapticFeedback) window.Telegram.WebApp.HapticFeedback.impactOccurred(style);
 }
+
 
 
 
