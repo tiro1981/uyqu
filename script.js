@@ -53,10 +53,10 @@ const SOUNDS = [
     { id: 32, category: "O'rmon", file: "audios/ormon4.mp3", name: "O'rmon ovozi", icon: "forest" },
 
   
-    {  id: 21,  category: "Tun",  file: "audios/crickets.mp3",   name, "Chigirtkalar",  icon: "bug_report" },
-    {  id: 22, category : "Tun",  file: "audios/night_ambience.mp3",  nam: "Tun sukunati",  ico: "nights_stay" },
+    {  id: 21,  category: "Tun",  file: "audios/crickets.mp3",   name: "Chigirtkalar",  icon: "bug_report" },
+    {  id: 22, category : "Tun",  file: "audios/night_ambience.mp3",  name: "Tun sukunati",  ,  icon: "nights_stay" },
     
-    {  id:23,  category: "Chaqmoq",  fil: "audios/thunder_distant.mp3",  nam: "Uzoq guldurak",  ico: "flash_on" },
+    {  id:23,  category: "Chaqmoq",  file: "audios/thunder_distant.mp3",  name: "Uzoq guldurak",  icon: "flash_on" },
 ];
 
 // --- 2. GLOBAL O'ZGARUVCHILAR ---
@@ -491,6 +491,7 @@ function setupTelegram() {
 function haptic(style = 'light') {
     if (window.Telegram.WebApp.HapticFeedback) window.Telegram.WebApp.HapticFeedback.impactOccurred(style);
 }
+
 
 
 
