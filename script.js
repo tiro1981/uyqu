@@ -1,4 +1,3 @@
-
 // --- 1. MA'LUMOTLAR ---
 const CATEGORIES_DATA = [
     { name: "Yomg'ir", icon: "cloudy_snowing" },
@@ -51,6 +50,7 @@ const SOUNDS = [
     { id: 33, category: "Tun", file: "audios/crickets.mp3", name: "Chigirtkalar", icon: "bug_report" },
     { id: 34, category: "Tun", file: "audios/night_ambience.mp3", name: "Tun sukunati", icon: "nights_stay" },
     { id: 35, category: "Chaqmoq", file: "audios/thunder_distant.mp3", name: "Uzoq guldurak", icon: "flash_on" },
+
 ];
 
 // --- 2. GLOBAL O'ZGARUVCHILAR ---
@@ -61,56 +61,69 @@ let volumes = {};
 let isMixPlaying = false;
 let timer = null;
 let currentCategory = null;
-let totalSecondsPlayed = 0; 
-let statsInterval = null;
+let totalSecondsPlayed = 0;
 
 // --- 3. DASTUR BOSHLANISHI ---
 window.onload = function() {
     loadConfig();
     setupTelegram();
-    renderCategories();
+    renderCategories(); 
     startStatsTracking();
     
-    document.getElementById('search').addEventListener('input', (e) => {
-        const query = e.target.value.trim().toLowerCase();
-        if (query.length > 0) {
-            performGlobalSearch(query);
-        } else {
-            renderCategories();
-        }
-    });
+    // Qidiruv mantiqi
+    const searchInput = document.getElementById('search');
+    if(searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.trim().toLowerCase();
+            if (query.length > 0) {
+                performGlobalSearch(query);
+            } else {
+                renderCategories();
+            }
+        });
+    }
 };
 
-// --- 4. FUNKSIYALAR ---
-function performGlobalSearch(query) {
-    document.getElementById("categoriesGrid").style.display = "none";
-    document.getElementById("soundList").style.display = "grid";
-    document.getElementById("backBtn").style.display = "flex"; 
-    document.getElementById("libraryTitle").innerText = "Qidiruv natijalari";
+// --- 4. NAVIGATSIYA (MENYULAR VA TABLAR) ---
 
-    const list = document.getElementById("soundList");
-    list.innerHTML = "";
+function switchTab(screenId, btnElement) {
+    // 1. Barcha ekranlarni yashirish
+    document.querySelectorAll(".screen").forEach(s => {
+        s.classList.remove("active");
+    });
+    
+    // 2. Tanlangan ekranni ko'rsatish
+    const targetScreen = document.getElementById(screenId);
+    if(targetScreen) targetScreen.classList.add("active");
+    
+    // 3. Pastki menyu tugmalarini yangilash
+    document.querySelectorAll(".nav-item").forEach(btn => btn.classList.remove("active"));
+    if(btnElement) btnElement.classList.add("active");
 
-    const results = SOUNDS.filter(s => s.name.toLowerCase().includes(query) || s.category.toLowerCase().includes(query));
-
-    if (results.length === 0) {
-        list.innerHTML = "<p style='grid-column: 1/-1; opacity:0.6; text-align:center; margin-top:20px;'>Hech narsa topilmadi</p>";
-        return;
-    }
-
-    results.forEach(s => createSoundCard(s, list));
+    // 4. Maxsus holatlar
+    if (screenId === "mix") renderMix();
+    if (screenId === "library") renderCategories(); // Kutubxonaga o'tganda reset qilish
+    
+    haptic('light');
 }
 
 function renderCategories() {
-    const grid = document.getElementById("categoriesGrid");
-    grid.innerHTML = "";
-    
-    document.getElementById("categoriesGrid").style.display = "grid";
-    document.getElementById("soundList").style.display = "none";
-    document.getElementById("backBtn").style.display = "none"; 
-    document.getElementById("libraryTitle").innerText = "Kutubxona";
-    
     currentCategory = null;
+    const grid = document.getElementById("categoriesGrid");
+    const list = document.getElementById("soundList");
+    const searchBox = document.querySelector('.search-box');
+    const backBtn = document.getElementById("backBtn");
+    const title = document.getElementById("libraryTitle");
+
+    if(!grid) return;
+
+    // UI-ni boshlang'ich holatga qaytarish
+    grid.innerHTML = "";
+    grid.style.display = "grid";
+    list.style.display = "none";
+    if(backBtn) backBtn.style.display = "none";
+    if(searchBox) searchBox.style.display = "flex"; // Qidiruvni ko'rsatish
+    if(title) title.innerText = "Kutubxona";
 
     CATEGORIES_DATA.forEach(cat => {
         const count = SOUNDS.filter(s => s.category === cat.name).length;
@@ -129,11 +142,58 @@ function renderCategories() {
 function openCategory(catName) {
     haptic('light');
     currentCategory = catName;
-    document.getElementById("categoriesGrid").style.display = "none";
-    document.getElementById("soundList").style.display = "grid";
-    document.getElementById("backBtn").style.display = "flex";
-    document.getElementById("libraryTitle").innerText = catName;
+    
+    const grid = document.getElementById("categoriesGrid");
+    const list = document.getElementById("soundList");
+    const searchBox = document.querySelector('.search-box');
+    const backBtn = document.getElementById("backBtn");
+    const title = document.getElementById("libraryTitle");
+
+    grid.style.display = "none";
+    list.style.display = "grid";
+    if(backBtn) backBtn.style.display = "flex";
+    if(title) title.innerText = catName;
+
+    // Kategoriya ichida qidiruvni yashirish
+    if(searchBox) searchBox.style.display = "none";
+
     renderSoundsInsideCategory(catName);
+}
+
+function goBack() {
+    haptic('light');
+    const searchInput = document.getElementById("search");
+    if(searchInput) searchInput.value = "";
+    renderCategories();
+}
+
+// --- 5. OVOZLARNI CHIZISH ---
+
+function renderSoundsInsideCategory(category) {
+    const list = document.getElementById("soundList");
+    list.innerHTML = "";
+    const filtered = SOUNDS.filter(s => s.category === category);
+    filtered.forEach(s => createSoundCard(s, list));
+}
+
+function performGlobalSearch(query) {
+    const grid = document.getElementById("categoriesGrid");
+    const list = document.getElementById("soundList");
+    const backBtn = document.getElementById("backBtn");
+    const title = document.getElementById("libraryTitle");
+
+    grid.style.display = "none";
+    list.style.display = "grid";
+    if(backBtn) backBtn.style.display = "flex"; 
+    if(title) title.innerText = "Qidiruv natijalari";
+
+    list.innerHTML = "";
+    const results = SOUNDS.filter(s => s.name.toLowerCase().includes(query));
+    if (results.length === 0) {
+        list.innerHTML = "<p style='grid-column:1/-1; text-align:center; opacity:0.5;'>Topilmadi</p>";
+        return;
+    }
+    results.forEach(s => createSoundCard(s, list));
 }
 
 function createSoundCard(s, container) {
@@ -149,9 +209,13 @@ function createSoundCard(s, container) {
         <span class="material-icons-round icon-main">${s.icon}</span>
         <p>${s.name}</p>
     `;
-    card.onclick = (e) => { if (!e.target.closest('.like-btn')) playDirect(s); };
+    card.onclick = (e) => {
+        if (!e.target.closest('.like-btn')) playDirect(s);
+    };
     container.appendChild(card);
 }
+
+// --- 6. PLAYER VA MIX MANTIQI ---
 
 function playDirect(s) {
     haptic('light');
@@ -159,17 +223,17 @@ function playDirect(s) {
         directPlayers.get(s.id).pause();
         directPlayers.delete(s.id);
     } else {
-        // Avvalgi barcha bir martalik ovozlarni to'xtatish
         directPlayers.forEach(p => p.pause());
         directPlayers.clear();
-
         const audio = new Audio(s.file);
         audio.loop = true;
         audio.volume = volumes[s.file] || 1.0; 
-        audio.play().catch(e => console.log("Audio xatosi:", e));
+        audio.play().catch(e => console.log(e));
         directPlayers.set(s.id, audio);
     }
-    refreshUI();
+    // UI-ni yangilash
+    if(currentCategory) renderSoundsInsideCategory(currentCategory);
+    else if(document.getElementById("search").value) performGlobalSearch(document.getElementById("search").value.toLowerCase());
 }
 
 function toggleSave(e, id) {
@@ -189,30 +253,16 @@ function toggleSave(e, id) {
         if (!volumes[sound.file]) volumes[sound.file] = 0.5;
     }
     saveConfig();
-    refreshUI();
-    if(document.getElementById('mix').classList.contains('active')) renderMix();
+    // UI-ni yangilash
+    if(currentCategory) renderSoundsInsideCategory(currentCategory);
+    else renderCategories();
 }
 
-function refreshUI() {
-    const searchVal = document.getElementById("search").value.trim();
-    if (searchVal.length > 0 && !currentCategory) {
-        performGlobalSearch(searchVal.toLowerCase());
-    } else if (currentCategory) {
-        renderSoundsInsideCategory(currentCategory);
-    }
-}
-
-function renderSoundsInsideCategory(category) {
-    const list = document.getElementById("soundList");
-    list.innerHTML = "";
-    SOUNDS.filter(s => s.category === category).forEach(s => createSoundCard(s, list));
-}
-
-// --- MIX VA TAYMER MANTIQI ---
 function renderMix() {
     const box = document.getElementById("mixList");
+    if(!box) return;
     if (saved.length === 0) {
-        box.innerHTML = "<p style='text-align:center; opacity:0.5; margin-top:50px;'>Tanlangan ovozlar yo'q.</p>";
+        box.innerHTML = "<p style='text-align:center; opacity:0.5; margin-top:50px;'>Sevimlilar bo'sh.</p>";
         updatePlayButtonUI();
         return;
     }
@@ -223,13 +273,9 @@ function renderMix() {
         item.className = `mix-item-card ${isPlaying ? 'active-mix' : ''}`;
         item.innerHTML = `
             <div class="mix-head" onclick="playOne('${s.file}')">
-                <div style="display:flex; align-items:center; gap:10px; flex:1; justify-content:center;">
-                    <span class="material-icons-round">${s.icon}</span>
-                    <span>${s.name}</span>
-                </div>
-                 <button class="icon-btn" onclick="toggleVolumeBar(event, this)">
-                    <span class="material-icons-round">tune</span>
-                </button>
+                <span class="material-icons-round">${s.icon}</span>
+                <span style="flex:1; text-align:left; margin-left:10px;">${s.name}</span>
+                <button class="icon-btn" onclick="toggleVolumeBar(event, this)"><span class="material-icons-round">tune</span></button>
             </div>
             <div class="mix-settings ${isPlaying ? 'active' : ''}">
                 <input type="range" min="0" max="1" step="0.01" value="${volumes[s.file] || 0.5}" oninput="setMixVolume('${s.file}', this.value)"> 
@@ -240,44 +286,52 @@ function renderMix() {
     updatePlayButtonUI();
 }
 
-function togglePlayAll() {
-    haptic('medium');
-    if (saved.length === 0) return;
-    if (isMixPlaying) {
-        mixPlayers.forEach(p => p.pause());
-        mixPlayers.clear();
-        isMixPlaying = false;
+function playOne(file) {
+    if (mixPlayers.has(file)) {
+        mixPlayers.get(file).pause();
+        mixPlayers.delete(file);
     } else {
-        saved.forEach(s => {
-            if (!mixPlayers.has(s.file)) {
-                const audio = new Audio(s.file);
-                audio.loop = true;
-                audio.volume = volumes[s.file] || 0.5;
-                audio.play();
-                mixPlayers.set(s.file, audio);
-            }
-        });
+        const audio = new Audio(file);
+        audio.loop = true;
+        audio.volume = volumes[file] || 0.5;
+        audio.play();
+        mixPlayers.set(file, audio);
         isMixPlaying = true;
     }
     renderMix();
 }
 
-function stopAllSounds() {
-    mixPlayers.forEach(p => p.pause());
-    mixPlayers.clear();
-    directPlayers.forEach(p => p.pause());
-    directPlayers.clear();
-    isMixPlaying = false;
-    if (timer) clearInterval(timer);
-    document.getElementById("countdown").textContent = "";
-    renderMix();
-    updatePlayButtonUI();
+function setMixVolume(file, val) {
+    volumes[file] = val;
+    if (mixPlayers.has(file)) mixPlayers.get(file).volume = val;
+    saveConfig();
 }
 
-// --- QOLGAN YORDAMCHI FUNKSIYALAR ---
+function updatePlayButtonUI() {
+    const btn = document.getElementById("mainPlayBtn");
+    if(!btn) return;
+    if (mixPlayers.size > 0) {
+        btn.innerHTML = '<span class="material-icons-round">pause</span> To\'xtatish';
+        btn.style.background = "#f43f5e";
+    } else {
+        btn.innerHTML = '<span class="material-icons-round">play_arrow</span> Mixni tinglash';
+        btn.style.background = "linear-gradient(135deg, #818cf8, #6366f1)";
+    }
+}
+
+// --- 7. SISTEMA ---
+
 function haptic(style = 'light') {
-    if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
+    if (window.Telegram?.WebApp?.HapticFeedback) {
         window.Telegram.WebApp.HapticFeedback.impactOccurred(style);
+    }
+}
+
+function setupTelegram() {
+    const tg = window.Telegram?.WebApp;
+    if(tg) {
+        tg.ready();
+        tg.expand();
     }
 }
 
@@ -293,22 +347,12 @@ function loadConfig() {
     if (v) volumes = JSON.parse(v);
 }
 
-function setupTelegram() {
-    if (window.Telegram && window.Telegram.WebApp) {
-        const tg = window.Telegram.WebApp;
-        tg.ready();
-        tg.expand();
-    }
-}
-
 function startStatsTracking() {
-    const storedTime = localStorage.getItem('relax_total_time');
-    if (storedTime) totalSecondsPlayed = parseInt(storedTime);
     setInterval(() => {
-        if (isMixPlaying || directPlayers.size > 0) {
+        if (mixPlayers.size > 0 || directPlayers.size > 0) {
             totalSecondsPlayed++;
-            localStorage.setItem('relax_total_time', totalSecondsPlayed);
-            updateStatsUI();
+            // Statistikani yangilash funksiyasini shu yerga chaqiring
         }
     }, 1000);
 }
+
