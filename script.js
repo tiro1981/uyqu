@@ -2,7 +2,6 @@
 const CATEGORIES_DATA = [
     { name: "Yomg'ir", icon: "cloudy_snowing" },
     { name: "Dengiz", icon: "tsunami" },
-    { name: "Shamol", icon: "air" },
     { name: "Olov", icon: "whatshot" },
     { name: "Qushlar", icon: "flutter_dash" },
     { name: "O'rmon", icon: "forest" },
@@ -26,24 +25,38 @@ const SOUNDS = [
     { id: 9, category: "Dengiz", file: "audios/ocean.mp3", name: "1", icon: "tsunami" },
     { id: 10, category: "Dengiz", file: "audios/ocean1.mp3", name: "2", icon: "tsunami" },
     { id: 11, category: "Dengiz", file: "audios/ocean2.mp3", name: "3", icon: "tsunami" },
-    { id: 12, category: "Dengiz", file: "audios/ocean3.mp3", name: "4", icon: "scuba_diving" },
-    { id: 13, category: "Dengiz", file: "audios/ocean4.mp3", name: "5", icon: "scuba_diving" },
-    { id: 14, category: "Dengiz", file: "audios/ocean5.mp3", name: "6", icon: "scuba_diving" },
-    { id: 15, category: "Dengiz", file: "audios/ocean6.mp3", name: "7", icon: "scuba_diving" },
+    { id: 12, category: "Dengiz", file: "audios/ocean3.mp3", name: "4", icon: "tsunami" },
+    { id: 13, category: "Dengiz", file: "audios/ocean4.mp3", name: "5", icon: "tsunami" },
+    { id: 14, category: "Dengiz", file: "audios/ocean5.mp3", name: "6", icon: "tsunami" },
+    { id: 15, category: "Dengiz", file: "audios/ocean6.mp3", name: "7", icon: "tsunami" },
     
-    { id: 16, category: "Shamol", file: "audios/wind_soft.mp3", name: "Mayin shamol", icon: "air" },
     
-    { id: 17, category: "Olov", file: "audios/fireplace.mp3", name: "Kamin", icon: "fireplace" },
-    { id: 18, category: "Olov", file: "audios/bonfire.mp3", name: "Gulxan", icon: "local_fire_department" },
+    { id: 16, category: "Olov", file: "audios/olov.mp3", name: "Kamin", icon: "fireplace" },
+    { id: 17, category: "Olov1", file: "audios/olov1.mp3", name: "Kamin", icon: "fireplace" },
+    { id: 18, category: "Olov2", file: "audios/olov2.mp3", name: "Kamin", icon: "fireplace" },
+    { id: 19, category: "Olov3", file: "audios/olov3.mp3", name: "Kamin", icon: "fireplace" },
+    { id: 20, category: "Olov4", file: "audios/olov4.mp3", name: "Kamin", icon: "fireplace" },
+    { id: 21, category: "Olov5", file: "audios/olov5.mp3", name: "Kamin", icon: "fireplace" },
     
-    { id: 19, category: "Qushlar", file: "audios/birds_morning.mp3", name: "Tonggi qushlar", icon: "flutter_dash" },
+    { id: 22, category: "Qushlar", file: "audios/qush.mp3", name: "Qushlar", icon: "flutter_dash" },
+    { id: 23, category: "Qushlar", file: "audios/qush1.mp3", name: "Qushlar", icon: "flutter_dash" },
+    { id: 24, category: "Qushlar", file: "audios/qush2.mp3", name: "Qushlar", icon: "flutter_dash" },
+    { id: 25, category: "Qushlar", file: "audios/qush3.mp3", name: "Qushlar", icon: "flutter_dash" },
+    { id: 26, category: "Qushlar", file: "audios/qush4.mp3", name: "Qushlar", icon: "flutter_dash" },
+    { id: 27, category: "Qushlar", file: "audios/qush5.mp3", name: "Qushlar", icon: "flutter_dash" },
+
+  
+    { id: 28, category: "O'rmon", file: "audios/ormon.mp3", name: "O'rmon ovozi", icon: "forest" },
+    { id: 29, category: "O'rmon", file: "audios/ormon1.mp3", name: "O'rmon ovozi", icon: "forest" },
+    { id: 30, category: "O'rmon", file: "audios/ormon2.mp3", name: "O'rmon ovozi", icon: "forest" },
+    { id: 31, category: "O'rmon", file: "audios/ormon3.mp3", name: "O'rmon ovozi", icon: "forest" },
+    { id: 32, category: "O'rmon", file: "audios/ormon4.mp3", name: "O'rmon ovozi", icon: "forest" },
+
+  
+    {  id: 21,  category: "Tun",  file: "audios/crickets.mp3",   name, "Chigirtkalar",  icon: "bug_report" },
+    {  id: 22, category : "Tun",  file: "audios/night_ambience.mp3",  nam: "Tun sukunati",  ico: "nights_stay" },
     
-    { id: 20, category: "O'rmon", file: "audios/forest_day.mp3", name: "Yozgi o'rmon", icon: "forest" },
-    
-    { id: 21, category: "Tun", file: "audios/crickets.mp3", name: "Chigirtkalar", icon: "bug_report" },
-    { id: 22, category: "Tun", file: "audios/night_ambience.mp3", name: "Tun sukunati", icon: "nights_stay" },
-    
-    { id: 23, category: "Chaqmoq", file: "audios/thunder_distant.mp3", name: "Uzoq guldurak", icon: "flash_on" },
+    {  id:23,  category: "Chaqmoq",  fil: "audios/thunder_distant.mp3",  nam: "Uzoq guldurak",  ico: "flash_on" },
 ];
 
 // --- 2. GLOBAL O'ZGARUVCHILAR ---
@@ -478,6 +491,7 @@ function setupTelegram() {
 function haptic(style = 'light') {
     if (window.Telegram.WebApp.HapticFeedback) window.Telegram.WebApp.HapticFeedback.impactOccurred(style);
 }
+
 
 
 
