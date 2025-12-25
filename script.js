@@ -52,9 +52,21 @@ const SOUNDS = [
     { id: 34, category: "O'rmon", file: "audios/ormon3.mp3", name: "Yovvoyi tabiat", icon: "forest" },
     { id: 35, category: "O'rmon", file: "audios/ormon4.mp3", name: "Daraxtlar", icon: "forest" },
 
-    { id: 36, category: "Tun", file: "audios/crickets.mp3", name: "Chigirtkalar", icon: "bug_report" },
-    { id: 37, category: "Tun", file: "audios/night_ambience.mp3", name: "Tun sukunati", icon: "nights_stay" },
-    { id: 38, category: "Chaqmoq", file: "audios/thunder_distant.mp3", name: "Uzoq guldurak", icon: "flash_on" },
+    { id: 36, category: "Tun", file: "audios/tun1.mp3", name: "Chigirtkalar", icon: "bug_report" },
+    { id: 37, category: "Tun", file: "audios/tun5.mp3", name: "Chigirtkalar", icon: "bug_report" },
+    { id: 38, category: "Tun", file: "audios/tun6.mp3", name: "Chigirtkalar", icon: "bug_report" },
+    { id: 39, category: "Tun", file: "audios/tun7.mp3", name: "Chigirtkalar", icon: "bug_report" },
+    { id: 40, category: "Tun", file: "audios/tun8.mp3", name: "Chigirtkalar", icon: "bug_report" },
+    { id: 41, category: "Tun", file: "audios/tun2.mp3", name: "Tun sukunati", icon: "nights_stay" },
+    { id: 42, category: "Tun", file: "audios/tun3.mp3", name: "Tun sukunati", icon: "nights_stay" },
+    { id: 43, category: "Tun", file: "audios/tun4.mp3", name: "Tun sukunati", icon: "nights_stay" },
+    
+    { id: 44, category: "Chaqmoq", file: "audios/m1.mp3", name: "Uzoq guldurak", icon: "flash_on" },
+    { id: 45, category: "Chaqmoq", file: "audios/m2.mp3", name: "Uzoq guldurak", icon: "flash_on" },
+    { id: 46, category: "Chaqmoq", file: "audios/m3.mp3", name: "Uzoq guldurak", icon: "flash_on" },
+    { id: 47, category: "Chaqmoq", file: "audios/m4.mp3", name: "Uzoq guldurak", icon: "flash_on" },
+    { id: 48, category: "Chaqmoq", file: "audios/m5.mp3", name: "Uzoq guldurak", icon: "flash_on" },
+    { id: 49, category: "Chaqmoq", file: "audios/m6.mp3", name: "Uzoq guldurak", icon: "flash_on" },
 ];
 
 // --- 2. GLOBAL O'ZGARUVCHILAR ---
@@ -489,3 +501,4 @@ function setupTelegram() {
 function haptic(style = 'light') {
     if (window.Telegram.WebApp.HapticFeedback) window.Telegram.WebApp.HapticFeedback.impactOccurred(style);
 }
+
