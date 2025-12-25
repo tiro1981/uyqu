@@ -43,16 +43,18 @@ const SOUNDS = [
     { id: 25, category: "Qushlar", file: "audios/qush3.mp3", name: "Tropik", icon: "flutter_dash" },
     { id: 26, category: "Qushlar", file: "audios/qush4.mp3", name: "O'rmon qushi", icon: "flutter_dash" },
     { id: 27, category: "Qushlar", file: "audios/qush5.mp3", name: "Sayroqi qush", icon: "flutter_dash" },
+    { id: 28, category: "Qushlar", file: "audios/qush6.mp3", name: "Sayroqi qush", icon: "flutter_dash" },
+    { id: 29, category: "Qushlar", file: "audios/qush7.mp3", name: "Sayroqi qush", icon: "flutter_dash" },
 
-    { id: 28, category: "O'rmon", file: "audios/ormon.mp3", name: "O'rmon ovozi", icon: "forest" },
-    { id: 29, category: "O'rmon", file: "audios/ormon1.mp3", name: "Sokin bog'", icon: "forest" },
-    { id: 30, category: "O'rmon", file: "audios/ormon2.mp3", name: "Yozgi kecha", icon: "forest" },
-    { id: 31, category: "O'rmon", file: "audios/ormon3.mp3", name: "Yovvoyi tabiat", icon: "forest" },
-    { id: 32, category: "O'rmon", file: "audios/ormon4.mp3", name: "Daraxtlar", icon: "forest" },
+    { id: 31, category: "O'rmon", file: "audios/ormon.mp3", name: "O'rmon ovozi", icon: "forest" },
+    { id: 32, category: "O'rmon", file: "audios/ormon1.mp3", name: "Sokin bog'", icon: "forest" },
+    { id: 33, category: "O'rmon", file: "audios/ormon2.mp3", name: "Yozgi kecha", icon: "forest" },
+    { id: 34, category: "O'rmon", file: "audios/ormon3.mp3", name: "Yovvoyi tabiat", icon: "forest" },
+    { id: 35, category: "O'rmon", file: "audios/ormon4.mp3", name: "Daraxtlar", icon: "forest" },
 
-    { id: 33, category: "Tun", file: "audios/crickets.mp3", name: "Chigirtkalar", icon: "bug_report" },
-    { id: 34, category: "Tun", file: "audios/night_ambience.mp3", name: "Tun sukunati", icon: "nights_stay" },
-    { id: 35, category: "Chaqmoq", file: "audios/thunder_distant.mp3", name: "Uzoq guldurak", icon: "flash_on" },
+    { id: 36, category: "Tun", file: "audios/crickets.mp3", name: "Chigirtkalar", icon: "bug_report" },
+    { id: 37, category: "Tun", file: "audios/night_ambience.mp3", name: "Tun sukunati", icon: "nights_stay" },
+    { id: 38, category: "Chaqmoq", file: "audios/thunder_distant.mp3", name: "Uzoq guldurak", icon: "flash_on" },
 ];
 
 // --- 2. GLOBAL O'ZGARUVCHILAR ---
